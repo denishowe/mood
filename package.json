@@ -1,0 +1,19 @@
+{
+  "name": "mood",
+  "version": "1.0.0",
+  "description": "Mood App Demo for Unmind",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/denishowe/mood.git"
+  },
+  "author": "Denis Howe",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/denishowe/mood/issues"
+  },
+  "homepage": "https://github.com/denishowe/mood#readme"
+}
