@@ -1,20 +1,19 @@
 
-// Server API
+// Main app server entry point
 
-// GET http://localhost:8888/
-// Serve dist/index.html
+// GET http://localhost:8888/		--> Front-end dist/index.html
 
-// POST http://localhost:8888/api
-// {"mood": 3, "feeling": "happy", "comment": "Optional"}
-
-// GET http://localhost:8888/api
-// [{"mood": 3, "feeling": "happy", "comment": "Optional", "time": "2018-07-22T16:55:00"}, ...]
+// POST http://localhost:8888/api	--> Back-end api/index.js
 
 
 const express = require('express')
-const app = express()
-
-app.get('/', (req, res) => res.send('Hello World!'))
+const api = require('./api')
 
 const port = 8888
-app.listen(port, () => console.log('Listening on ' + port))
+
+express()
+	.use(express.static('dist'))
+	.get('/', (req, res) => res.sendFile('index.html'))
+	.post('/api', api.post)
+	.get('/api', api.get)
+	.listen(port, () => console.log('Listening on ' + port))
