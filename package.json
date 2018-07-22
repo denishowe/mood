@@ -4,7 +4,8 @@
   "description": "Mood App Demo for Unmind",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack-cli",
+    "start": "start dist/index.html"
   },
   "repository": {
     "type": "git",
