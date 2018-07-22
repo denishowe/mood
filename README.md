@@ -49,7 +49,7 @@ Table showing:
 * Number of check-ins
 * Past check-ins (mood, feeling, comment, timestamp) most recent first
 
-# Possible Future Extensions
+## Future Extensions
 
 * Multi-user
 * Edit, delete check-in
