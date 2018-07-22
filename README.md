@@ -11,8 +11,6 @@ Web app served by http://expressjs.com/
 
 Node service to store and retrieve check-ins via REST API.
 
-Simulate database with https://www.npmjs.com/package/node-storage - file-based store
-
 ### Post check-in
 
 POST http://localhost:8888/api
@@ -51,5 +49,6 @@ Table showing:
 
 ## Future Extensions
 
+* Real database
 * Multi-user
-* Edit, delete check-in
+* Edit and delete a check-in

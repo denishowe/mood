@@ -5,10 +5,13 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack-cli",
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "jest"
   },
   "dependencies": {
+    "body-parser": "^1.18.3",
     "express": "^4.16.3",
+    "node-storage": "0.0.7",
     "react": "^16.4.1",
     "react-dom": "^16.4.1"
   },
@@ -20,6 +23,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-es2015-ie": "^6.7.0",
     "babel-preset-react": "^6.24.1",
+    "jest": "^23.4.1",
     "webpack": "^4.15.0",
     "webpack-cli": "^3.0.8"
   },

@@ -7,13 +7,15 @@
 
 
 const express = require('express')
+// const bodyParser = require('body-parser')
+
 const api = require('./api')
 
 const port = 8888
 
 express()
 	.use(express.static('dist'))
+	.use(express.json({type: "*/*"}))
 	.get('/', (req, res) => res.sendFile('index.html'))
-	.post('/api', api.post)
-	.get('/api', api.get)
+	.all('/api', (req, res) => res.send(api(req)))
 	.listen(port, () => console.log('Listening on ' + port))
