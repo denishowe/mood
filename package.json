@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack-cli",
-    "start": "node index.js",
+    "start": "start http://localhost:8888/ & node index.js",
     "test": "jest"
   },
   "dependencies": {

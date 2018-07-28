@@ -1,0 +1,22 @@
+body {
+	width: 800px;
+	margin: 30px;
+	font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif;
+	font-size: 16pt;
+}
+
+select {
+	font-size: 12pt;
+}
+
+input.submit {
+	margin: 25px 0 50px 100px;
+}
+
+.moodInput input {
+	width: 300px;
+}
+
+textarea {
+	width: 300px
+}

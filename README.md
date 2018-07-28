@@ -15,13 +15,13 @@ Node service to store and retrieve check-ins via REST API.
 
 POST http://localhost:8888/api
 
-`{"mood": 3, "feeling": "happy", "comment": "Optional"}`
+`{"mood": "3", "feeling": "happy", "comment": "Optional"}`
 
 ### Fetch check-ins
 
 GET http://localhost:8888/api
 
-`[{"mood": 3, "feeling": "happy", "comment": "Optional", "time": "2018-07-22T16:55:00"}, ...]`
+`[{"mood": "3", "feeling": "happy", "comment": "Optional", "timestamp": "2018-07-22T16:55:00"}, ...]`
 
 ## Front end
 
@@ -33,8 +33,8 @@ http://localhost:8888/
 
 Form with:
 
-* Mood: 1 bad to and 7 excellent
-* Feeling: "depressed", "optimistic", "bored", "happy"
+* Mood: 1 bad .. 7 excellent
+* Feeling: one of "depressed", "optimistic", "bored", "happy"
 * Optional comment
 
 ### Mood Insights
