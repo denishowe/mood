@@ -42,6 +42,8 @@ module.exports = (req) => {
 
 		// Validate input
 
+		if (! data.mood)
+			return 'Missing mood'
 		const mood = parseInt(data.mood)
 		if (data.mood < 1 || data.mood > 7)
 			return 'mood should be an integer "1" to "7"' + ' (' + data.mood +')'
