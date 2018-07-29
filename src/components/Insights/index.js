@@ -37,8 +37,7 @@ export default class Insights extends React.Component {
 			c.id = nCheckins++;
 			meanMood += parseInt(c.mood)
 		})
-		meanMood /= nCheckins
-		meanMood = Math.floor(meanMood)
+		meanMood = nCheckins ? Math.floor(meanMood / nCheckins) : '-'
 
 		const rows = checkins.map(c => this.row(c))
 
