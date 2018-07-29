@@ -11,5 +11,5 @@ npm-debug.log
 Dockerfile
 docker-compose.yml
 
-main.js
+dist/main.js
 datastore
