@@ -1,26 +1,54 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 
 export default class MoodInput extends React.Component {
 
 	constructor(props) {
 		super(props)
 		this.size = 150					// Half the SVG width and height
-
-		this.state = { happy: 4 }		// Neutral on a scale of 1=sad .. 7=happy
-
-		this.happyChange = this.happyChange.bind(this)
 	}
 
-	// Mood changed - redraw eyes and mouth
+	render() {
+		const { mood, moodChange } = this.props
 
-	happyChange(event) {
+		return (
+			<div className={ 'moodInput' }>
+				<p>My mood today is</p>
+				<input type={ 'range' } min={ 1 } max={ 7 } value={ mood }
+					   autoComplete={ 'off' } onChange={ moodChange }
+					   autoFocus = { true } />
+				<div id={ 'face' }> </div>
+			</div>
+		)
+	}
 
-		// Convert input value 1..7 to -3 .. +3 for ease of scaling
+	// Draw bits of face that don't change
 
-		const happyIn = event ? event.target.value : this.state.happy
-		this.props.moodChange(event)
-		this.setState({happy: happyIn})
-		const happy = parseInt(happyIn) - 4
+	componentDidMount() {
+
+		// Create the SVG on element with id 'face' using svg.min.js loaded in head
+
+		this.draw = SVG('face').size(2*this.size, 2*this.size)
+
+		// Draw face outline
+
+		this.draw.circle(1.8 * this.size)
+			.cx(this.size).cy(this.size)
+			.fill('yellow')
+			.stroke({ width: 5 });
+
+		this.componentDidUpdate({})		// Rest of face
+	}
+
+	// (Re)draw bits of face that depend on mood
+
+	shouldComponentUpdate(nextProps) {
+		return nextProps.mood != this.props.mood
+	}
+
+	componentDidUpdate() {
+		const { mood } = this.props		 	// 1..7
+		const happy = parseInt(mood) - 4	// -3 .. +3 for ease of scaling
 
 		// Eyes
 
@@ -49,37 +77,5 @@ export default class MoodInput extends React.Component {
 		this.mouth = this.draw.path(`M${ left } Q${ control } ${ right }`)
 			.stroke({ width: 15, linecap: 'round' })
 			.fill('none')
-	}
-
-	render() {
-		this.slider = (
-			<input type={ 'range' } min={ 1 } max={ 7 } value={ this.state.happy }
-				   autoComplete={ 'off' } autoFocus={ 'autofocus' }
-				   onChange={ this.happyChange } />
-		)
-
-		return (
-			<div className={ 'moodInput' }>
-				<p>My mood today is</p>
-				{ this.slider }
-				<div id={ 'face' }> </div>
-			</div>
-		)
-	}
-
-	componentDidMount() {				// Component added to DOM
-
-		// Create the SVG on element with id 'face' using svg.min.js loaded in head
-
-		this.draw = SVG('face').size(2*this.size, 2*this.size)
-
-		// Draw face outline
-
-		this.draw.circle(1.8 * this.size)
-			.cx(this.size).cy(this.size)
-			.fill('yellow')
-			.stroke({ width: 5 });
-
-		this.happyChange()				// Initial eyes and mouth
 	}
 }
