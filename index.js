@@ -14,7 +14,6 @@ const api = require('./api')
 const port = 8888
 
 const publicDir = path.resolve(__dirname, 'dist')
-console.log('Public dir', publicDir)
 
 express()
 	.use(express.static(publicDir))
