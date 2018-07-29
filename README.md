@@ -13,15 +13,19 @@ Node service to store and retrieve check-ins via REST API.
 
 ### Post check-in
 
-POST http://localhost:8888/api
+`POST http://localhost:8888/api`
 
+Request content:
 `{"mood": "3", "feeling": "happy", "comment": "Optional"}`
 
 ### Fetch check-ins
 
-GET http://localhost:8888/api
+`GET http://localhost:8888/api`
 
-`[{"mood": "3", "feeling": "happy", "comment": "Optional", "timestamp": "2018-07-22T16:55:00"}, ...]`
+Response content:
+`[{"mood": "3", "feeling": "happy", "comment": "Optional", "timestamp": "1532819443717"}, ...]`
+
+timestamp = milliseconds since 1970
 
 ## Front end
 
@@ -51,4 +55,4 @@ Table showing:
 
 * Real database
 * Multi-user
-* Edit and delete a check-in
+* Edit or delete a check-in
