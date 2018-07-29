@@ -45,14 +45,14 @@ Form with:
 
 http://localhost:8888/insights
 
-Table showing:
-
 * Average mood
 * Number of check-ins
-* Past check-ins (mood, feeling, comment, timestamp) most recent first
+* Table showing past check-ins (mood, feeling, comment, timestamp) most recent first
 
 ## Future Extensions
 
 * Real database
 * Multi-user
 * Edit or delete a check-in
+* Disable submit when no feeling selected
+* Disable submit on submit
