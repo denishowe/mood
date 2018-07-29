@@ -18,7 +18,6 @@ export default class InputForm extends React.Component {
 
 	moodChange(e) {
 		if (! e) return
-		console.log('moodChange', e.target.value)
 		this.setState({ mood: e.target.value })
 	}
 
