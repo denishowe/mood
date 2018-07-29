@@ -3,7 +3,7 @@
 Mood App Demo for Unmind
 
 Denis Howe
-2018-07-22
+2018-07-30
 
 Web app served by http://expressjs.com/
 
@@ -18,7 +18,7 @@ Node service to store and retrieve check-ins via REST API.
 Request content:
 `{"mood": "3", "feeling": "happy", "comment": "Optional"}`
 
-### Fetch check-ins
+### Fetch all check-ins
 
 `GET http://localhost:8888/api`
 
@@ -49,10 +49,9 @@ http://localhost:8888/insights
 * Number of check-ins
 * Table showing past check-ins (mood, feeling, comment, timestamp) most recent first
 
-## Future Extensions
+## Future Improvements
 
 * Real database
 * Multi-user
 * Edit or delete a check-in
-* Disable submit when no feeling selected
-* Disable submit on submit
+* Better styling
