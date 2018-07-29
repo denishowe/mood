@@ -11,14 +11,18 @@ Web app served by http://expressjs.com/
 
 Node service to store and retrieve check-ins via REST API.
 
-### Post check-in
+Run server (combined web server for REST API and front-end):
+
+`npm run start`
+
+### Post a new check-in to the API
 
 `POST http://localhost:8888/api`
 
 Request content:
 `{"mood": "3", "feeling": "happy", "comment": "Optional"}`
 
-### Fetch all check-ins
+### Fetch all check-ins from the API
 
 `GET http://localhost:8888/api`
 
@@ -45,12 +49,15 @@ Form with:
 
 http://localhost:8888/insights
 
+Report showing:
+
 * Average mood
 * Number of check-ins
-* Table showing past check-ins (mood, feeling, comment, timestamp) most recent first
+* Table of past check-ins (mood, feeling, comment, timestamp) most recent first
 
 ## Future Improvements
 
+* Better submit feedback
 * Real database
 * Multi-user
 * Edit or delete a check-in
