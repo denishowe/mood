@@ -1,71 +1,76 @@
 
 // Server API - exports handler function of type request => response
 
-// Simulate database with file-based store
+// Simulate a database with an array stored in a file
+// https://www.npmjs.com/package/jsonfile
 
-const Storage = require('node-storage')
+const Storage = require('jsonfile')
 
-const maxCommentChars = 64
+class api {
 
-module.exports = (req) => {
+	// Return the store array read from the file
+	// object's "data" property or [] if no file yet
 
-	const store = new Storage('data')
-	let maxId = store.get('maxId') 						// Last stored id
-	maxId = maxId ? parseInt(maxId) : 0;
+	static _storeFileName() { return 'datastore' }
 
-	// Handle GET request - list all stored check-ins
+	static _loadStore() {
+		let content
+		try { content = Storage.readFileSync(api._storeFileName()) } catch(e) { }
+		api.store = content ? content.data : []
+	}
+
+	// Write to the file an object with the store array as its "data" property
+
+	static _saveStore() {
+		Storage.writeFileSync(api._storeFileName(), { data: api.store })
+	}
+
+	static _maxCommentChars() { return 64 }
+
+	// Handle GET request - return list of all stored check-ins
 
 	// GET http://localhost:8888/api
 	// [{"mood": 3, "feeling": "happy", "comment": "Optional", "time": "2018-07-22T16:55:00"}, ...]
 
-	const get = req => {
-		let res = []
-		for (let id = 1; id <= maxId; id++)
-		{
-			const data = store.get(id.toString())
-			res.push(JSON.parse(data))
-		}
+	static get(req) {
+		if (! api.store) api._loadStore()
 
-		// Sort events most recent first
-
-		res.sort( (a, b) => b.timestamp - a.timestamp )
-
-		return JSON.stringify(res)
+		return api.store
 	}
 
 	// Handle POST request - store new check-in
 
 	// echo {"mood": 3, "feeling": "happy", "comment": "Optional"} | POST http://localhost:8888/api
 
-	const post = req => {
-		let data = req.body									// mood, feeling, comment
+	static post(req) {
+		let checkIn = req.body
 
 		// Validate input
 
-		if (! data.mood)
+		if (! checkIn.mood)
 			return 'Missing mood'
-		const mood = parseInt(data.mood)
-		if (data.mood < 1 || data.mood > 7)
-			return 'mood should be an integer "1" to "7"' + ' (' + data.mood +')'
+		const mood = parseInt(checkIn.mood)
+		if (checkIn.mood < 1 || checkIn.mood > 7)
+			return 'mood should be an integer "1" to "7"' + ' (' + checkIn.mood +')'
 
-		if (! data.feeling)
+		if (! checkIn.feeling)
 			return 'Missing feeling'
-		if (! data.feeling.match(/^(depressed|optimistic|bored|happy)$/))
+		if (! checkIn.feeling.match(/^(depressed|optimistic|bored|happy)$/))
 			return 'Bad feeling'
 
-		if (data.comment && data.comment.length > maxCommentChars)
-			return 'Comment > ' + maxCommentChars + ' chars'
+		if (checkIn.comment && checkIn.comment.length > api._maxCommentChars())
+			return 'Comment > ' + api._maxCommentChars() + ' chars'
 
-		data.timestamp = (new Date).getTime()				// ms since 1970
+		checkIn.timestamp = (new Date).getTime()				// ms since 1970
 
-		// Store the new post with the next sequential id starting from '1'
+		// Append the new check-in and save store to file
 
-		const id = (maxId + 1).toString()					// This post's id
-		store.put(id, JSON.stringify(data))
-		store.put('maxId', id)								// Update id in store
+		if (! api.store) api._loadStore()
+		api.store.push(checkIn)
+		api._saveStore()
 
 		return 'OK'
 	}
-
-	return req.method == 'GET' ? get(req) : post(req)
 }
+
+module.exports = req => req.method == 'GET' ? api.get(req) : api.post(req)
