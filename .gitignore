@@ -1,15 +1,11 @@
 # Node build artifacts
 node_modules
 npm-debug.log
+main.js
 
 # Local development
 *.env
 *.dev
+*.pdf
 .DS_Store
-
-# Docker
-Dockerfile
-docker-compose.yml
-
 datastore
-main.js
