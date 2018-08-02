@@ -8,69 +8,66 @@ const Storage = require('jsonfile')
 
 class api {
 
-	// Return the store array read from the file
-	// object's "data" property or [] if no file yet
+    // Return the store array read from the file
+    // object's "data" property or [] if no file yet
 
-	static _storeFileName() { return 'datastore' }
+    static _loadStore() {
+        let content
+        try { content = Storage.readFileSync('datastore') } catch(e) { }
+        api.store = content ? content.data : []
+    }
 
-	static _loadStore() {
-		let content
-		try { content = Storage.readFileSync(api._storeFileName()) } catch(e) { }
-		api.store = content ? content.data : []
-	}
+    // Write to the file an object with the store array as its "data" property
 
-	// Write to the file an object with the store array as its "data" property
+    static _saveStore() {
+        Storage.writeFileSync('datastore', { data: api.store })
+    }
 
-	static _saveStore() {
-		Storage.writeFileSync(api._storeFileName(), { data: api.store })
-	}
+    // Handle GET request - return list of all stored check-ins
 
-	static _maxCommentChars() { return 64 }
+    // GET http://localhost:8888/api
+    // [{"mood": 3, "feeling": "happy", "comment": "Optional", "time": "34234234234"}, ...]
 
-	// Handle GET request - return list of all stored check-ins
+    static get(req) {
+        if (! api.store) api._loadStore()
 
-	// GET http://localhost:8888/api
-	// [{"mood": 3, "feeling": "happy", "comment": "Optional", "time": "2018-07-22T16:55:00"}, ...]
+        return api.store
+    }
 
-	static get(req) {
-		if (! api.store) api._loadStore()
+    // Handle POST request - store new check-in
 
-		return api.store
-	}
+    // echo {"mood": 3, "feeling": "happy", "comment": "Optional"} | POST http://localhost:8888/api
 
-	// Handle POST request - store new check-in
+    static post(req) {
+        let checkIn = req.body
 
-	// echo {"mood": 3, "feeling": "happy", "comment": "Optional"} | POST http://localhost:8888/api
+        // Validate input
 
-	static post(req) {
-		let checkIn = req.body
+        if (! checkIn.mood)
+            return 'Missing mood'
+        const mood = parseInt(checkIn.mood)
+        if (checkIn.mood < 1 || checkIn.mood > 7)
+            return 'mood should be an integer "1" to "7"' + ' (' + checkIn.mood +')'
 
-		// Validate input
+        if (! checkIn.feeling)
+            return 'Missing feeling'
+        if (! checkIn.feeling.match(/^(depressed|optimistic|bored|happy)$/))
+            return 'Bad feeling'
 
-		if (! checkIn.mood)
-			return 'Missing mood'
-		const mood = parseInt(checkIn.mood)
-		if (checkIn.mood < 1 || checkIn.mood > 7)
-			return 'mood should be an integer "1" to "7"' + ' (' + checkIn.mood +')'
+        const maxCommentChars = 64
+        if (checkIn.comment && checkIn.comment.length > maxCommentChars)
+            return 'Comment > ' + maxCommentChars + ' chars'
 
-		if (! checkIn.feeling)
-			return 'Missing feeling'
-		if (! checkIn.feeling.match(/^(depressed|optimistic|bored|happy)$/))
-			return 'Bad feeling'
+        checkIn.timestamp = (new Date).getTime()                // ms since 1970
 
-		if (checkIn.comment && checkIn.comment.length > api._maxCommentChars())
-			return 'Comment > ' + api._maxCommentChars() + ' chars'
+        // Append the new check-in and save store to file
 
-		checkIn.timestamp = (new Date).getTime()				// ms since 1970
+        if (! api.store) api._loadStore()
+        api.store.push(checkIn)
+        api._saveStore()
 
-		// Append the new check-in and save store to file
-
-		if (! api.store) api._loadStore()
-		api.store.push(checkIn)
-		api._saveStore()
-
-		return 'OK'
-	}
+        return 'OK'
+    }
 }
 
 module.exports = req => req.method == 'GET' ? api.get(req) : api.post(req)

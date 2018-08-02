@@ -6,12 +6,12 @@ import Insights from '../Insights'
 
 export default class App extends React.Component {
 
-	render() {
-		return (
-			<div>
-				<Route path="/" exact	component={ InputForm } />
-				<Route path="/insights" component={ Insights } />
-			</div>
-		)
-	}
+    render() {
+        return (
+            <div>
+                <Route path="/" exact   component={ InputForm } />
+                <Route path="/insights" component={ Insights } />
+            </div>
+        )
+    }
 }
