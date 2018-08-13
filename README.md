@@ -1,6 +1,6 @@
 # mood
 
-Mood App Demo for Unmind
+Mood App Demo
 
 Denis Howe
 2018-07-30
