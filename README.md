@@ -7,6 +7,8 @@ Denis Howe
 
 Web app served by http://expressjs.com/
 
+Spec: 2018-07-06 email "Unmind coding challenge for Denis"
+
 ## Back end
 
 Node service to store and retrieve check-ins via REST API.
