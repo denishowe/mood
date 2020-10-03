@@ -4,6 +4,7 @@
   "description": "Mood App Demo for Unmind",
   "main": "index.js",
   "scripts": {
+    "clean": "rm -rf dist node_modules",
     "build": "webpack-cli",
     "start": "start http://localhost:8888/ & node index.js",
     "test": "jest"
